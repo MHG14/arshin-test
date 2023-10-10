@@ -20,6 +20,7 @@ import * as joi from 'joi';
         database: configService.getOrThrow('DATABASE'),
         entities: [User, Purchase],
         autoLoadEntities: true,
+        // should not be true in production environment
         synchronize: true,
       }),
       inject: [ConfigService],

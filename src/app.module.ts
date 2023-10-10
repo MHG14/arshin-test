@@ -13,11 +13,11 @@ import * as joi from 'joi';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.getOrThrow('HOST'),
-        port: configService.getOrThrow('PORT'),
-        username: configService.getOrThrow('USERNAME'),
-        password: configService.getOrThrow('PASSWORD'),
-        database: configService.getOrThrow('DATABASE'),
+        host: configService.getOrThrow('POSTGRES_HOST'),
+        port: configService.getOrThrow('POSTGRES_PORT'),
+        username: configService.getOrThrow('POSTGRES_USERNAME'),
+        password: configService.getOrThrow('POSTGRES_PASSWORD'),
+        database: configService.getOrThrow('POSTGRES_DATABASE'),
         entities: [User, Purchase],
         autoLoadEntities: true,
         // should not be true in production environment
@@ -26,12 +26,14 @@ import * as joi from 'joi';
       inject: [ConfigService],
     }),
     ConfigModule.forRoot({
+      // doing validation on .env file variables
       validationSchema: joi.object({
-        HOST: joi.string().required(),
+        POSTGRES_HOST: joi.string().required(),
+        POSTGRES_PORT: joi.number().required(),
         PORT: joi.number().required(),
-        USERNAME: joi.string().required(),
-        PASSWORD: joi.string().required(),
-        DATABASE: joi.string().required(),
+        POSTGRES_USERNAME: joi.string().required(),
+        POSTGRES_PASSWORD: joi.string().required(),
+        POSTGRES_DATABASE: joi.string().required(),
       }),
     }),
     UsersModule,
